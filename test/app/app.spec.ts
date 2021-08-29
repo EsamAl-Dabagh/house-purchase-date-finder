@@ -1,5 +1,13 @@
 import request from 'supertest';
 import { app } from '../../src/app/app';
+import { getPurchaseDateResponse } from '../../src/handlers/handlers';
+
+jest.mock('../../src/handlers/handlers.ts', () => ({
+  getPurchaseDateResponse: jest.fn(() => ({
+    address: '123 Test Street',
+    purchaseDate: '2020-05-12',
+  })),
+}));
 
 describe('GET /', () => {
   it('should return 200', async () => {
@@ -11,17 +19,23 @@ describe('GET /', () => {
 
 describe('GET /purchase-date', () => {
   it('should return response containing address and purchase date', async () => {
+
+    const result = await request(app).get('/purchase-date?address=123-test-street').send();
+
     const expectedResponse = {
-      "data": {
-        "address": '123 Test Street',
-        "purchaseDate": '2000-01-01',
-      }
+      "address": '123 Test Street',
+      "purchaseDate": '2020-05-12',
     }
-    const result = await request(app).get('/purchase-date').send();
 
     expect(result.status).toBe(200);
     expect(result.type).toEqual('application/json');
-    expect(result.body.data.address).toBe(expectedResponse.data.address);
-    expect(result.body.data.purchaseDate).toBe(expectedResponse.data.purchaseDate);
+    expect(result.body.address).toBe(expectedResponse.address);
+    expect(result.body.purchaseDate).toBe(expectedResponse.purchaseDate);
+  });
+
+  it('should call getPurchaseDateResponse', async () => {
+    await request(app).get('/purchase-date?address=123-test-street').send();
+
+    expect(getPurchaseDateResponse).toBeCalled();
   });
 });

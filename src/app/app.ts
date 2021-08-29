@@ -1,4 +1,5 @@
 import express, { Application } from 'express';
+import { getPurchaseDateResponse, PurchaseDateResponse } from '../handlers/handlers';
 
 export const app: Application = express();
 
@@ -7,10 +8,15 @@ app.get('/', (request, response) => {
 });
 
 app.get('/purchase-date', (request, response) => {
-  response.send({
-    data: {
-      address: '123 Test Street',
-      purchaseDate: '2000-01-01',
-    }
-  });
+  let purchaseDateResponse: PurchaseDateResponse;
+
+
+  try {
+    purchaseDateResponse = getPurchaseDateResponse(request);
+  } catch (err) {
+    throw new Error('Unable to retrieve data');
+  }
+
+  response.setHeader('content-type', 'application/json');
+  response.send(purchaseDateResponse);
 });
