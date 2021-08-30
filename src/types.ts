@@ -16,6 +16,10 @@ export interface LandRegistryData {
   record_status: string;
 }
 
+export interface MatchedAddressData extends LandRegistryData {
+  fullAddress: string;
+}
+
 export interface PurchaseDateResponse {
   address: string;
   purchaseDate: string;
