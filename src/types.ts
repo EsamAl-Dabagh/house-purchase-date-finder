@@ -24,3 +24,11 @@ export interface PurchaseDateResponse {
   address: string;
   purchaseDate: string;
 }
+
+export interface RequestAddress {
+  BuildingNumber: number;
+  SubBuilding?: string;
+  BuildingName?: string;
+  Street: string;
+  Postcode: string;
+}

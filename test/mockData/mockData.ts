@@ -1,6 +1,6 @@
 import { LandRegistryData } from "../../src/types";
 
-export const  mockLandRegistryData: LandRegistryData[] = [
+export const mockLandRegistryData: LandRegistryData[] = [
   {
     "price": "91000",
     "date_of_transfer": "1995-07-21",
