@@ -1,5 +1,6 @@
 import express, { Application } from 'express';
-import { getPurchaseDateResponse, PurchaseDateResponse } from '../handlers/handlers';
+import { getPurchaseDateResponse } from '../handlers/handlers';
+import { PurchaseDateResponse } from '../types';
 
 export const app: Application = express();
 

@@ -1,14 +1,13 @@
 import { Request } from "express"
-
-export interface PurchaseDateResponse {
-  address: string;
-  purchaseDate: string;
-}
+import { getAllLandRegistryData } from "../datasources/landRegistryDataSource";
+import { PurchaseDateResponse } from "../types";
 
 export const getPurchaseDateResponse = (request: Request): PurchaseDateResponse => {
   if(Object.keys(request.query).length > 0 && !("address" in request.query)) {
     throw new Error();
   }
+
+  getAllLandRegistryData();
 
   return ({
     address: `${request.query.address}`,
