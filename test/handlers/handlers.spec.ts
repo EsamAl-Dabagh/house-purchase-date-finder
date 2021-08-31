@@ -1,6 +1,6 @@
 import { Request } from 'express';
 import { getAllLandRegistryData } from '../../src/datasources/landRegistryDataSource';
-import { errorHandler, getPurchaseDateResponse } from '../../src/handlers/handlers';
+import { getPurchaseDateResponse } from '../../src/handlers/handlers';
 import { matchAddress } from '../../src/services/addressMatchingService';
 import { PurchaseDateResponse } from '../../src/types';
 import { mockLandRegistryData } from '../mockData/mockData';
@@ -47,19 +47,6 @@ describe('getPurchaseDateResponse', () => {
     const response = getPurchaseDateResponse(mockRequest);
 
     expect(response.purchaseDate).toBe(expectedPurchaseDate);
-  });
-  
-  it('should throw an error if buildingNumber does not exist in querystring', () => {
-    const mockRequest: Request = {
-      query: {
-        street: 'Test Street',
-        postcode: 'B79 9HE'
-      }
-    } as unknown as Request;
-
-    expect(() => {
-      getPurchaseDateResponse(mockRequest)
-    }).toThrowError();
   });
 
   it('should throw an error if street does not exist in querystring', () => {

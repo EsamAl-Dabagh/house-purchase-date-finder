@@ -1,13 +1,5 @@
 import request from 'supertest';
-import { app } from '../../src/app/app';
-
-describe('GET /', () => {
-  it('should return 200', async () => {
-    const result = await request(app).get('/').send();
-
-    expect(result.status).toBe(200);
-  })
-});
+import { app } from '../src/app';
 
 describe('GET /purchase-date', () => {
   it('should return response containing address and purchase date', async () => {
@@ -28,4 +20,12 @@ describe('GET /purchase-date', () => {
     expect(result.body.address).toBe(expectedResponse.address);
     expect(result.body.purchaseDate).toBe(expectedResponse.purchaseDate);
   });
+
+  it('should return a 400 error if invalid query parameters supplied', async () => {
+    const buildingNumber = '2';
+
+    const result = await request(app).get(`/purchase-date?invalidParam=${buildingNumber}`).send();
+
+    expect(result.status).toBe(400);
+  })
 });

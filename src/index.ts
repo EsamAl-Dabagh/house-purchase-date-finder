@@ -1,4 +1,4 @@
-import { app } from './app/app';
+import { app } from './app';
 
 const port: string = '8000';
 

@@ -35,4 +35,21 @@ export const mockLandRegistryData: LandRegistryData[] = [
     "ppd_category_type": "A",
     "record_status": "A"
   },
+  {
+    "price": "57000",
+    "date_of_transfer": "2005-08-03",
+    "postcode": "CH45 9NF",
+    "property_type": "F",
+    "old_new": "N",
+    "duration": "L",
+    "paon": "MONTPELLIER HOUSE",
+    "saon": "6",
+    "street": "MONTPELLIER CRESCENT",
+    "locality": "WALLASEY",
+    "city": "WALLASEY",
+    "district": "WIRRAL",
+    "county": "MERSEYSIDE",
+    "ppd_category_type": "A",
+    "record_status": "A"
+  },
 ];

@@ -3,13 +3,26 @@ import {
   RequestedAddress
 } from '../types';
 
-export const matchAddress = (allLandRegistryData: LandRegistryData[], address: RequestedAddress): LandRegistryData | null => {
+export const matchAddress = (allLandRegistryData: LandRegistryData[], requestedAddress: RequestedAddress): LandRegistryData | null => {
 
-  const matchedProperty = allLandRegistryData.filter((property) => (
-      property.paon.toLowerCase() === address.buildingNumber.toString().toLowerCase() &&
-      property.street.toLowerCase() === address.street.toLowerCase() &&
-      property.postcode.toLowerCase() === address.postcode.toLowerCase()
-    ) 
+  const matchedProperty = allLandRegistryData.filter((property) => {
+      if(
+        property.paon.toLowerCase() === requestedAddress.buildingName?.toLowerCase() &&
+        property.saon.toLowerCase() === requestedAddress.subBuilding?.toLowerCase() &&
+        property.street.toLowerCase() === requestedAddress.street.toLowerCase() &&
+        property.postcode.toLowerCase() === requestedAddress.postcode.toLowerCase()
+      ) {
+        return true;
+      }
+      
+      if(
+        property.paon.toLowerCase() === requestedAddress.buildingNumber?.toString().toLowerCase() &&
+        property.street.toLowerCase() === requestedAddress.street.toLowerCase() &&
+        property.postcode.toLowerCase() === requestedAddress.postcode.toLowerCase()
+      ) {
+        return true;
+      }
+    }
   );
 
   if (!matchedProperty.length) {
