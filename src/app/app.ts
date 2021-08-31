@@ -4,13 +4,12 @@ import { PurchaseDateResponse } from '../types';
 
 export const app: Application = express();
 
-app.get('/', (request, response) => {
+app.get('/', (_request, response) => {
   response.send('API up and running');
 });
 
 app.get('/purchase-date', (request, response) => {
   let purchaseDateResponse: PurchaseDateResponse;
-
 
   try {
     purchaseDateResponse = getPurchaseDateResponse(request);

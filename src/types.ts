@@ -21,14 +21,14 @@ export interface MatchedAddressData extends LandRegistryData {
 }
 
 export interface PurchaseDateResponse {
-  address: string;
-  purchaseDate: string;
+  address: string | null;
+  purchaseDate: string | null;
 }
 
-export interface RequestAddress {
-  BuildingNumber: string;
-  SubBuilding?: string;
-  BuildingName?: string;
-  Street: string;
-  Postcode: string;
+export interface RequestedAddress {
+  buildingNumber: string;
+  subBuilding?: string;
+  buildingName?: string;
+  street: string;
+  postcode: string;
 }

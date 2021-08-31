@@ -2,6 +2,7 @@ import { Request } from 'express';
 import { getAllLandRegistryData } from '../../src/datasources/landRegistryDataSource';
 import { getPurchaseDateResponse } from '../../src/handlers/handlers';
 import { matchAddress } from '../../src/services/addressMatchingService';
+import { PurchaseDateResponse } from '../../src/types';
 import { mockLandRegistryData } from '../mockData/mockData';
 
 jest.mock('../../src/datasources/landRegistryDataSource.ts', () => ({
@@ -18,7 +19,7 @@ describe('getPurchaseDateResponse', () => {
       query: {
         buildingNumber: '2',
         street: 'Churchside',
-        postCode: 'B79 9HE'
+        postcode: 'B79 9HE'
       }
     } as unknown as Request;
 
@@ -35,7 +36,7 @@ describe('getPurchaseDateResponse', () => {
       query: {
         buildingNumber: '2',
         street: 'Churchside',
-        postCode: 'B79 9HE'
+        postcode: 'B79 9HE'
       }
     } as unknown as Request;
 
@@ -52,7 +53,7 @@ describe('getPurchaseDateResponse', () => {
     const mockRequest: Request = {
       query: {
         street: 'Test Street',
-        postCode: 'B79 9HE'
+        postcode: 'B79 9HE'
       }
     } as unknown as Request;
 
@@ -65,7 +66,7 @@ describe('getPurchaseDateResponse', () => {
     const mockRequest: Request = {
       query: {
         buildingNumber: '123',
-        postCode: 'B79 9HE'
+        postcode: 'B79 9HE'
       }
     } as unknown as Request;
 
@@ -92,12 +93,33 @@ describe('getPurchaseDateResponse', () => {
       query: {
         buildingNumber: '2',
         street: 'Churchside',
-        postCode: 'B79 9HE'
+        postcode: 'B79 9HE'
       }
     } as unknown as Request;
 
     getPurchaseDateResponse(mockRequest);
 
     expect(getAllLandRegistryData).toBeCalledTimes(1);
+  });
+
+  it('should return null for address and purchase date if matching data not found in Land Registry data', () => {
+    const mockRequest: Request = {
+      query: {
+        buildingNumber: '7',
+        street: 'Street Does Not Exist',
+        postcode: 'AB12 8GU'
+      }
+    } as unknown as Request;
+
+    (matchAddress as jest.Mock).mockReturnValueOnce(null);
+
+    const expectedResponse: PurchaseDateResponse = {
+      address: null,
+      purchaseDate: null,
+    }
+
+    const response = getPurchaseDateResponse(mockRequest);
+
+    expect(response).toEqual(expectedResponse);
   });
 });

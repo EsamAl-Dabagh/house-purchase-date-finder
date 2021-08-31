@@ -1,14 +1,14 @@
 import {
   LandRegistryData,
-  RequestAddress
+  RequestedAddress
 } from '../types';
 
-export const matchAddress = (allLandRegistryData: LandRegistryData[], address: RequestAddress): LandRegistryData | null => {
+export const matchAddress = (allLandRegistryData: LandRegistryData[], address: RequestedAddress): LandRegistryData | null => {
 
   const matchedProperty = allLandRegistryData.filter((property) => (
-      property.paon.toLowerCase() === address.BuildingNumber.toString().toLowerCase() &&
-      property.street.toLowerCase() === address.Street.toLowerCase() &&
-      property.postcode.toLowerCase() === address.Postcode.toLowerCase()
+      property.paon.toLowerCase() === address.buildingNumber.toString().toLowerCase() &&
+      property.street.toLowerCase() === address.street.toLowerCase() &&
+      property.postcode.toLowerCase() === address.postcode.toLowerCase()
     ) 
   );
 
