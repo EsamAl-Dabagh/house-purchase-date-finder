@@ -14,7 +14,9 @@ app.get('/purchase-date', (request, response) => {
   try {
     purchaseDateResponse = getPurchaseDateResponse(request);
   } catch (err) {
-    throw new Error('Unable to retrieve data');
+    response.status(400);
+    response.send('Bad request: Invalid query string parameters');
+    throw new Error('Invalid query string parameters');
   }
 
   response.setHeader('content-type', 'application/json');

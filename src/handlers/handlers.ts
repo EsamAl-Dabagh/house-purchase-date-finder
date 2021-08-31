@@ -2,6 +2,7 @@ import { Request } from "express"
 import { matchAddress } from "../services/addressMatchingService";
 import { getAllLandRegistryData } from "../datasources/landRegistryDataSource";
 import { PurchaseDateResponse, RequestedAddress } from "../types";
+import { ErrorRequestHandler } from 'express';
 
 export const getPurchaseDateResponse = (request: Request): PurchaseDateResponse => {
   if(
@@ -10,7 +11,7 @@ export const getPurchaseDateResponse = (request: Request): PurchaseDateResponse 
     !("street" in request.query) ||
     !("postcode" in request.query)
   ) {
-    throw new Error();
+    throw new Error('Invalid querystring parameters');
   }
 
   const requestedAddress: RequestedAddress = {
@@ -27,3 +28,11 @@ export const getPurchaseDateResponse = (request: Request): PurchaseDateResponse 
     purchaseDate: matchedAddress ? matchedAddress?.date_of_transfer as string : null,
   })
 }
+
+export const errorHandler: ErrorRequestHandler = (err, request, response, next): void => {
+  response.status(err.status || 500);
+  response.render('error', {
+      message: err.message,
+      error: {}
+  });
+};

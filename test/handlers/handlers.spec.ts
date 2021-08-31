@@ -1,6 +1,6 @@
 import { Request } from 'express';
 import { getAllLandRegistryData } from '../../src/datasources/landRegistryDataSource';
-import { getPurchaseDateResponse } from '../../src/handlers/handlers';
+import { errorHandler, getPurchaseDateResponse } from '../../src/handlers/handlers';
 import { matchAddress } from '../../src/services/addressMatchingService';
 import { PurchaseDateResponse } from '../../src/types';
 import { mockLandRegistryData } from '../mockData/mockData';
