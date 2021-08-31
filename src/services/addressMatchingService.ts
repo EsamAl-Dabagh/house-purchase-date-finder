@@ -16,5 +16,7 @@ export const matchAddress = (allLandRegistryData: LandRegistryData[], address: R
     return null
   }
 
+  // If there is a match there should only be one item in matchedProperty. If there are more items,
+  // it means a property appears more than once in Land Registry data. 
   return matchedProperty[0];
 };

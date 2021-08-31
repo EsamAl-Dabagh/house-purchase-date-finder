@@ -5,7 +5,7 @@ import { RequestAddress } from '../../src/types';
 describe('addressMatcherService', () => {
   it('should return LandRegistryData of suppied address if present', () => {
     const address: RequestAddress = {
-      BuildingNumber: 2,
+      BuildingNumber: '2',
       Street: 'Churchside',
       Postcode: 'B79 9HE',
     };
@@ -17,7 +17,7 @@ describe('addressMatcherService', () => {
 
   it('should return null if supplied address is not present', () => {
     const address: RequestAddress = {
-      BuildingNumber: 99,
+      BuildingNumber: '99',
       Street: 'Not A Match Avenue',
       Postcode: 'B79 9HE',
     };

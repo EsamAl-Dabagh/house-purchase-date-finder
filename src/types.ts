@@ -26,7 +26,7 @@ export interface PurchaseDateResponse {
 }
 
 export interface RequestAddress {
-  BuildingNumber: number;
+  BuildingNumber: string;
   SubBuilding?: string;
   BuildingName?: string;
   Street: string;

@@ -1,6 +1,7 @@
 import { Request } from "express"
+import { matchAddress } from "../services/addressMatchingService";
 import { getAllLandRegistryData } from "../datasources/landRegistryDataSource";
-import { PurchaseDateResponse } from "../types";
+import { PurchaseDateResponse, RequestAddress } from "../types";
 
 export const getPurchaseDateResponse = (request: Request): PurchaseDateResponse => {
   if(
@@ -12,10 +13,17 @@ export const getPurchaseDateResponse = (request: Request): PurchaseDateResponse 
     throw new Error();
   }
 
+  const requestedAddress: RequestAddress = {
+    BuildingNumber: request.query.buildingNumber as string,
+    Street: request.query.street as string,
+    Postcode: request.query.postCode as string,
+  };
+
   const allLandRegistryData = getAllLandRegistryData();
+  const matchedAddress = matchAddress(allLandRegistryData, requestedAddress);
 
   return ({
-    address: `${request.query.buildingNumber} ${request.query.street}, ${request.query.postCode}`,
-    purchaseDate: '2020-05-12',
+    address: `${requestedAddress.BuildingNumber} ${requestedAddress.Street}, ${requestedAddress.Postcode}`,
+    purchaseDate: matchedAddress?.date_of_transfer as string,
   })
 }

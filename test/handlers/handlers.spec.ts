@@ -1,25 +1,51 @@
 import { Request } from 'express';
 import { getAllLandRegistryData } from '../../src/datasources/landRegistryDataSource';
 import { getPurchaseDateResponse } from '../../src/handlers/handlers';
+import { matchAddress } from '../../src/services/addressMatchingService';
+import { mockLandRegistryData } from '../mockData/mockData';
 
 jest.mock('../../src/datasources/landRegistryDataSource.ts', () => ({
   getAllLandRegistryData: jest.fn(),
-}))
+}));
+
+jest.mock('../../src/services/addressMatchingService', () => ({
+  matchAddress: jest.fn(),
+}));
 
 describe('getPurchaseDateResponse', () => {
   it('should include supplied address in response', () => {
     const mockRequest: Request = {
       query: {
-        buildingNumber: '123',
-        street: 'Test Street',
+        buildingNumber: '2',
+        street: 'Churchside',
         postCode: 'B79 9HE'
       }
     } as unknown as Request;
 
-    const address = '123 Test Street, B79 9HE';
+    (matchAddress as jest.Mock).mockReturnValueOnce(mockLandRegistryData[0]);
+
+    const address = '2 Churchside, B79 9HE';
     const response = getPurchaseDateResponse(mockRequest);
 
     expect(response.address).toBe(address);
+  });
+
+  it('should include purchase date in response', () => {
+    const mockRequest: Request = {
+      query: {
+        buildingNumber: '2',
+        street: 'Churchside',
+        postCode: 'B79 9HE'
+      }
+    } as unknown as Request;
+
+    (matchAddress as jest.Mock).mockReturnValueOnce(mockLandRegistryData[0]);
+
+    const expectedPurchaseDate = '1995-07-21';
+
+    const response = getPurchaseDateResponse(mockRequest);
+
+    expect(response.purchaseDate).toBe(expectedPurchaseDate);
   });
   
   it('should throw an error if buildingNumber does not exist in querystring', () => {
@@ -64,8 +90,8 @@ describe('getPurchaseDateResponse', () => {
   it('should retrieve land registry data', () => {
     const mockRequest: Request = {
       query: {
-        buildingNumber: '123',
-        street: 'Test Street',
+        buildingNumber: '2',
+        street: 'Churchside',
         postCode: 'B79 9HE'
       }
     } as unknown as Request;
